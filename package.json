@@ -1,0 +1,19 @@
+{
+  "name": "aethos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayushkavad/aethos.git"
+  },
+  "author": "Ayush Kavad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ayushkavad/aethos/issues"
+  },
+  "homepage": "https://github.com/ayushkavad/aethos#readme"
+}
