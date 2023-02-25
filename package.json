@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ayushkavad/aethos/issues"
   },
-  "homepage": "https://github.com/ayushkavad/aethos#readme"
+  "homepage": "https://github.com/ayushkavad/aethos#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
