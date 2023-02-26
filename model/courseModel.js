@@ -6,6 +6,11 @@ const courseSchema = new mongoose.Schema({
     required: [true, 'A course mush have a title.'],
     unique: true,
   },
+  price: {
+    type: String,
+    required: [true, 'A course mush have a title.'],
+    unique: true,
+  },
 });
 
 const Course = mongoose.model('Course', courseSchema);
