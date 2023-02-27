@@ -1,79 +1,15 @@
 const express = require('express');
+const courseController = require('./controllers/courseController');
 const Course = require('./model/courseModel');
 const app = express();
 
-// Body Parser
+// body parser
 app.use(express.json());
 
-app.get('/api/v1/courses/:id', async (req, res, next) => {
-  try {
-    const course = await Course.findById(req.params.id);
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'No course found with that ID!',
-    });
-  }
-});
-
-app.post('/api/v1/course', async (req, res, next) => {
-  try {
-    const newCourse = await Course.create(req.body);
-    res.status(201).json({
-      status: 'success',
-      data: {
-        data: newCourse,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'invalid data sent!',
-    });
-  }
-});
-
-app.patch('/api/v1/course/:id', async (req, res, next) => {
-  try {
-    const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'No course found with that ID!',
-    });
-  }
-});
-
-app.delete('/api/v1/course/:id', async (req, res, next) => {
-  try {
-    await Course.findByIdAndDelete(req.params.id);
-    res.status(204).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'No course found with that ID!',
-    });
-  }
-});
+app.get('/api/v1/courses', courseController.getAllCourses);
+app.post('/api/v1/course', courseController.createCourse);
+app.get('/api/v1/courses/:id', courseController.getCourse);
+app.patch('/api/v1/course/:id', courseController.updateCourse);
+app.delete('/api/v1/course/:id', courseController.deleteCourse);
 
 module.exports = app;
