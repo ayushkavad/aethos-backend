@@ -1,3 +1,5 @@
+const Course = require('./../model/courseModel');
+
 exports.getAllCourses = async (req, res, next) => {
   try {
     const courses = await Course.find();
