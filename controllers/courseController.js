@@ -21,6 +21,7 @@ exports.getAllCourses = async (req, res, next) => {
 exports.getCourse = async (req, res, next) => {
   try {
     const course = await Course.findById(req.params.id);
+
     res.status(200).json({
       status: 'success',
       data: {
