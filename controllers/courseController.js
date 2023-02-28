@@ -32,6 +32,18 @@ exports.getAllCourses = async (req, res, next) => {
       query = query.select('-__v');
     }
 
+    // Sorting
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+
+    query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numCourses = await Course.countDocuments();
+      if (skip >= numCourses) throw new Error('This page does not exist!');
+    }
+
     const courses = await query;
 
     res.status(200).json({
