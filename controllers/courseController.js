@@ -1,50 +1,15 @@
 const Course = require('./../model/courseModel');
+const APIFeatures = require('./../utils/apiFeatures');
 
 exports.getAllCourses = async (req, res, next) => {
   try {
-    // Filtring
-    const queryObj = {...req.query};
-    const excludeFiedls = ['page', 'sort', 'limit', 'fields'];
+    const features = new APIFeatures(Course.find(), req.query)
+      .filter()
+      .sort()
+      .limit()
+      .paginate();
 
-    excludeFiedls.forEach((el) => delete queryObj[el]);
-
-    // Advanced Filtering
-    let queryStr = JSON.stringify(queryObj).replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`
-    );
-
-    let query = Course.find(JSON.parse(queryStr));
-
-    // Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort('-createdAt');
-    }
-
-    // Limiting
-    if (req.query.fileds) {
-      const fileds = req.query.fileds.split(',').join(' ');
-      query = query.select(fileds);
-    } else {
-      query = query.select('-__v');
-    }
-
-    // Sorting
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 100;
-    const skip = (page - 1) * limit;
-
-    query.skip(skip).limit(limit);
-
-    if (req.query.page) {
-      const numCourses = await Course.countDocuments();
-      if (skip >= numCourses) throw new Error('This page does not exist!');
-    }
-
-    const courses = await query;
+    const courses = await features.query;
 
     res.status(200).json({
       status: 'success',
