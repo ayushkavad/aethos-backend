@@ -1,4 +1,174 @@
-{
-  "title": "node js",
-  "price": 776
-}
+[
+  {
+    "title": "The Complete Back-end development Course (2023) edition.",
+    "level": "advanced",
+    "price": 4999,
+    "ratingsAverage": 5.0,
+    "ratingsQuantity": 287,
+    "imageCover": "course-cover.jpg",
+    "summary": "Master Node by building a real-world RESTful API and web app (with authentication, Node.js security, payments & more)",
+    "discription": "Do you want to build fast and powerful back-end applications with JavaScript? Would you like to become a more complete and in-demand developer?\nThen Node.js is the hot technology for you to learn right now, and you came to the right place to do it!\n Welcome to the Complete Node.js, Express, and MongoDB Bootcamp, your fast track to modern back-end development.",
+    "learningContent": "Master the entire modern back-end stack: Node, Express, MongoDB and Mongoose (MongoDB JS driver).\nBuild a complete, beautiful & real-world application from start to finish (API and server-side rendered website).\nBuild a fast, scalable, feature-rich RESTful API (includes filters, sorts, pagination, and much more).\nLearn how Node really works behind the scenes: event loop, blocking vs non-blocking code, streams, modules, etc.CRUD operations with MongoDB and Mongoose.\nDeep dive into mongoose (including all advanced features)",
+    "requirement": "Absolutely NO understanding of Node or back-end development is required!\nI take you from beginner to advanced developer!\nBasic understanding of JavaScript is required (the course contains a section about asynchronous JavaScript with promises and async/await in case you need to get up to speed).\nBasic understanding of HTML is a plus (only for final part of the course), but NOT a must.Any computer and OS will work — Windows, macOS or Linux",
+    "courseContent": [
+      {
+        "name": "Introduction to Backend development",
+        "content": ["video-1.mp4", "video-2.mp4", "video-3.mp4"]
+      },
+      {
+        "name": "Basics of Express Framework",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4",
+          "video-6.mp4"
+        ]
+      },
+      {
+        "name": "NoSQL Database MongoDB, Mongoose",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4",
+          "video-6.mp4",
+          "video-7.mp4",
+          "video-8.mp4"
+        ]
+      },
+      {
+        "name": "Wrap Up",
+        "content": ["video-1.mp4"]
+      }
+    ]
+  },
+  {
+    "title": "Modern React with Redux [2023 Update]",
+    "level": "Intermediate",
+    "price": 3999,
+    "ratingsAverage": 4.7,
+    "ratingsQuantity": 166,
+    "imageCover": "course-cover.jpg",
+    "summary": "Master React and Redux Toolkit. Includes RTK Query, tons of custom hooks, and more! Course 100% Updated November 2022",
+    "discription": "Congratulations!  You've found the most popular, most complete, and most up-to-date resource online for learning React and Redux!\nThousands of other engineers have learned React and Redux, and you can too.  This course uses a time-tested, battle-proven method to make sure you understand exactly how React and Redux work, and will get you a new job working as a software engineer or help you build that app you've always been dreaming about.",
+    "learningContent": "Create dynamic web apps using the latest in web technology\nAcquire the programming skills needed to obtain a software engineering job\nPractice your skills with many large projects, exercises, and quizzes\n Master the fundamentals concepts behind React and Redux\n Become fluent in the toolchain supporting React, including NPM, Webpack, Babel, and ES6/ES2015 Javascript syntax\nBe the engineer who explains how Redux works to everyone else, because you know the fundamentals so well",
+    "requirement": "Absolutely NO understanding of React or forn-end development is required!\nA Mac or Windows Computer",
+    "courseContent": [
+      {
+        "name": "Introduction to Front-end development",
+        "content": ["video-1.mp4", "video-2.mp4"]
+      },
+      {
+        "name": "Basics of HTML/CSS",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4",
+          "video-6.mp4"
+        ]
+      },
+      {
+        "name": "fundamentals of JavaScript and ES6",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4",
+          "video-6.mp4",
+          "video-7.mp4",
+          "video-8.mp4"
+        ]
+      },
+      {
+        "name": "Introduce to React and Advanced React",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4",
+          "video-6.mp4",
+          "video-7.mp4",
+          "video-8.mp4",
+          "video-9.mp4",
+          "video-10.mp4"
+        ]
+      },
+      {
+        "name": "State Managment system With Redux",
+        "content": ["video-1.mp4", "video-2.mp4", "video-3.mp4"]
+      },
+      {
+        "name": "Basics of TypeScript And Advanced TypeScript",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4"
+        ]
+      },
+      {
+        "name": "Wrap Up",
+        "content": ["video-1.mp4"]
+      }
+    ]
+  },
+  {
+    "title": "MasterClass: Build Modern API & Microservices",
+    "level": "advanced",
+    "price": 2999,
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 266,
+    "imageCover": "course-cover.jpg",
+    "summary": "Better than REST API! Build a Javascript HTTP/2 API for a NodeJS micro service with gRPC, Protocol Buffers (protobuf)",
+    "discription": "gRPC is a new and modern framework for building scalable, modern and fast API. It is leveraged by many top tech companies such as Google, Square & Netflix and enables programmers to write micro-services in any language they want while keeping the ability to easily create communications between these services. It relies on Protocol Buffers for the transport mechanism and Service Definition language.",
+    "learningContent": "Create dynamic web apps using the latest in web technology\nAcquire the programming skills needed to obtain a software engineering job\nPractice your skills with many large projects, exercises, and quizzes\n Master the fundamentals concepts behind React and Redux\n Become fluent in the toolchain supporting React, including NPM, Webpack, Babel, and ES6/ES2015 Javascript syntax\nBe the engineer who explains how Redux works to everyone else, because you know the fundamentals so well",
+    "requirement": "Good Understanding of Javascript & NodeJS\nGood Understanding of Protocol Buffers",
+    "courseContent": [
+      {
+        "name": "gRPC Course Overview",
+        "content": ["video-1.mp4", "video-2.mp4"]
+      },
+      {
+        "name": "gRPC Internals Deep Dive",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4",
+          "video-6.mp4"
+        ]
+      },
+      {
+        "name": "gRPC Server Streaming",
+        "content": ["video-1.mp4", "video-2.mp4", "video-3.mp4", "video-4.mp4"]
+      },
+      {
+        "name": "gRPC Client Streaming",
+        "content": [
+          "video-1.mp4",
+          "video-2.mp4",
+          "video-3.mp4",
+          "video-4.mp4",
+          "video-5.mp4"
+        ]
+      },
+      {
+        "name": "Advanced Features Deep Dive",
+        "content": ["video-1.mp4", "video-2.mp4"]
+      },
+      {
+        "name": "Next Steps",
+        "content": ["video-1.mp4"]
+      }
+    ]
+  }
+]

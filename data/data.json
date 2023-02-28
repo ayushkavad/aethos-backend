@@ -1,0 +1,87 @@
+{
+  "_id": "5c88fa8cf4afda39709c2955",
+  "title": "The Complete Back-end development Course (2023) edition.",
+  "level": "advanced",
+  "price": 497,
+  "priceDiscount": 200,
+  "ratingsAverage": 4.9,
+  "ratingsQuantity": 9,
+  "imageCover": "course-cover.jpg",
+  "summary": "Master Node by building a real-world RESTful API and web app (with authentication, Node.js security, payments & more)",
+  "discription": "Do you want to build fast and powerful back-end applications with JavaScript? Would you like to become a more complete and in-demand developer?\nThen Node.js is the hot technology for you to learn right now, and you came to the right place to do it!\n Welcome to the Complete Node.js, Express, and MongoDB Bootcamp, your fast track to modern back-end development.",
+  "learningContent": "Master the entire modern back-end stack: Node, Express, MongoDB and Mongoose (MongoDB JS driver).\nBuild a complete, beautiful & real-world application from start to finish (API and server-side rendered website).\nBuild a fast, scalable, feature-rich RESTful API (includes filters, sorts, pagination, and much more).\nLearn how Node really works behind the scenes: event loop, blocking vs non-blocking code, streams, modules, etc.CRUD operations with MongoDB and Mongoose.\nDeep dive into mongoose (including all advanced features)",
+  "requirement": "Absolutely NO understanding of Node or back-end development is required!\nI take you from beginner to advanced developer!\nBasic understanding of JavaScript is required (the course contains a section about asynchronous JavaScript with promises and async/await in case you need to get up to speed).\nBasic understanding of HTML is a plus (only for final part of the course), but NOT a must.Any computer and OS will work — Windows, macOS or Linux",
+  "courseContent": [
+    {
+      "name": "Introduction to Backend development",
+      "content": ["video-1.mp4", "video-2.mp4", "video-3.mp4"]
+    },
+    {
+      "name": "Basics of Express Framework",
+      "content": [
+        "video-1.mp4",
+        "video-2.mp4",
+        "video-3.mp4",
+        "video-4.mp4",
+        "video-5.mp4",
+        "video-6.mp4"
+      ]
+    },
+    {
+      "name": "NoSQL Database MongoDB, Mongoose",
+      "content": [
+        "video-1.mp4",
+        "video-2.mp4",
+        "video-3.mp4",
+        "video-4.mp4",
+        "video-5.mp4",
+        "video-6.mp4",
+        "video-7.mp4",
+        "video-8.mp4"
+      ]
+    },
+    {
+      "name": "Wrap Up",
+      "content": ["video-1.mp4"]
+    }
+  ],
+  "instructor": [
+    {
+      "photo": "user-12.jpg",
+      "role": "admin",
+      "_id": "5c8a22c62f8fb814b56fa18b",
+      "name": "Miyah Myles",
+      "email": "miyah@example.com"
+    }
+  ],
+  "reviews": [
+    {
+      "_id": "5c8a34ed14eb5c17645c9108",
+      "review": "Cras mollis nisi parturient mi nec aliquet suspendisse sagittis eros condimentum scelerisque taciti mattis praesent feugiat eu nascetur a tincidunt",
+      "rating": 5,
+      "user": {
+        "photo": "user-2.jpg",
+        "_id": "5c8a1dfa2f8fb814b56fa181",
+        "name": "Lourdes Browning"
+      },
+      "tour": "5c88fa8cf4afda39709c2955",
+      "createdAt": "2019-05-08T09:54:11.161Z",
+      "__v": 0,
+      "id": "5c8a34ed14eb5c17645c9108"
+    },
+    {
+      "_id": "5c8a3b7c14eb5c17645c912f",
+      "review": "Tempor pellentesque eu placerat auctor enim nam suscipit tincidunt natoque ipsum est.",
+      "rating": 5,
+      "user": {
+        "photo": "user-15.jpg",
+        "_id": "5c8a23de2f8fb814b56fa18e",
+        "name": "Max Smith"
+      },
+      "tour": "5c88fa8cf4afda39709c2955",
+      "createdAt": "2019-05-08T09:54:11.172Z",
+      "__v": 0,
+      "id": "5c8a3b7c14eb5c17645c912f"
+    }
+  ]
+}

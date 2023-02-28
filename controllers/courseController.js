@@ -31,7 +31,7 @@ exports.getCourse = async (req, res, next) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: 'No course found with that ID!',
+      message: err,
     });
   }
 };
@@ -48,7 +48,7 @@ exports.createCourse = async (req, res, next) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: 'invalid data sent!',
+      message: err,
     });
   }
 };
@@ -59,6 +59,7 @@ exports.updateCourse = async (req, res, next) => {
       new: true,
       runValidators: true,
     });
+    console.log(course);
     res.status(200).json({
       status: 'success',
       data: {
@@ -68,7 +69,7 @@ exports.updateCourse = async (req, res, next) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: 'No course found with that ID!',
+      message: err,
     });
   }
 };
@@ -85,7 +86,7 @@ exports.deleteCourse = async (req, res, next) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: 'No course found with that ID!',
+      message: err,
     });
   }
 };
