@@ -24,6 +24,14 @@ exports.getAllCourses = async (req, res, next) => {
       query = query.sort('-createdAt');
     }
 
+    // Limiting
+    if (req.query.fileds) {
+      const fileds = req.query.fileds.split(',').join(' ');
+      query = query.select(fileds);
+    } else {
+      query = query.select('-__v');
+    }
+
     const courses = await query;
 
     res.status(200).json({
