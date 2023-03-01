@@ -22,7 +22,8 @@
     "express": "^4.18.2",
     "mongoose": "^6.10.0",
     "morgan": "^1.10.0",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "eslint": "^8.34.0",
