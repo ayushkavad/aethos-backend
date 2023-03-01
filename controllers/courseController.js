@@ -9,7 +9,25 @@ exports.getAllCourses = async (req, res, next) => {
       .limit()
       .paginate();
 
-    const courses = await features.query;
+    let courses;
+    if (req.query.search) {
+      courses = await Course.aggregate([
+        {
+          $search: {
+            index: 'SearchTitle',
+            text: {
+              query: req.query.search,
+              path: {
+                wildcard: '*',
+              },
+              fuzzy: {},
+            },
+          },
+        },
+      ]);
+    } else {
+      courses = await features.query;
+    }
 
     res.status(200).json({
       status: 'success',
@@ -117,7 +135,7 @@ exports.getBestSeller = async (req, res, next) => {
   }
 };
 
-exports.getBestRatings = async (req, res, next) => {
+exports.getTopRatings = async (req, res, next) => {
   try {
     const course = await Course.aggregate([
       {

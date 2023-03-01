@@ -89,6 +89,10 @@ courseSchema.pre('save', function (next) {
 //   next();
 // });
 
+// courseSchema.pre('aggregate', function (next) {
+//   console.log(this.pipeline());
+// });
+
 const Course = mongoose.model('Course', courseSchema);
 
 module.exports = Course;
