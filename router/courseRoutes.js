@@ -3,6 +3,8 @@ const controllers = require('./../controllers/courseController');
 
 const router = express.Router();
 
+router.route('/best-ratings').get(controllers.getBestRatings);
+
 router.route('/').get(controllers.getAllCourses).post(controllers.createCourse);
 
 router

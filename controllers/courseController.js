@@ -98,3 +98,32 @@ exports.deleteCourse = async (req, res, next) => {
     });
   }
 };
+
+exports.getBestRatings = async (req, res, next) => {
+  const course = await Course.aggregate([
+    {
+      $match: { ratingsAverage: { $gte: 4.8 } },
+    },
+    {
+      $group: {
+        _id: { $toUpper: '$level' },
+        numCourse: { $sum: 1 },
+        numRatings: { $sum: '$ratingsQuantity' },
+        avgRating: { $avg: '$ratingsAverage' },
+        avgPrice: { $avg: '$price' },
+        minPrice: { $min: '$price' },
+        maxPrice: { $max: '$price' },
+      },
+    },
+    {
+      $sort: { avgPrice: 1 },
+    },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: course,
+    },
+  });
+};

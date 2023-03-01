@@ -51,7 +51,7 @@ const courseSchema = new mongoose.Schema({
     required: [true, 'A course must have a requirement '],
   },
   courseContent: {
-    type: [{name: String, content: [String]}],
+    type: [{ name: String, content: [String] }],
   },
   createdAt: {
     type: Date,
