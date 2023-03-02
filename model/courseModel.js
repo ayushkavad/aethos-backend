@@ -85,7 +85,12 @@ courseSchema.pre('save', function (next) {
 });
 
 // courseSchema.pre(/^find/, function (next) {
-//   this.find({ bestseller: { $ne: false } });
+//   // this.find({ bestseller: { $ne: false } });
+//   next();
+// });
+
+// courseSchema.post(/^find/, (doc, next) => {
+//   console.log(doc);
 //   next();
 // });
 

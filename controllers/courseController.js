@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
+const AppError = require('../utils/appError');
 const Course = require('./../model/courseModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
 
 exports.getAllCourses = async (req, res, next) => {
   try {
@@ -44,23 +47,19 @@ exports.getAllCourses = async (req, res, next) => {
   }
 };
 
-exports.getCourse = async (req, res, next) => {
-  try {
-    const course = await Course.findById(req.params.id);
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
+exports.getCourse = catchAsync(async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next(new AppError('No course found with that ID!', 404));
   }
-};
+  const course = await Course.findById(req.params.id);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: course,
+    },
+  });
+});
 
 exports.createCourse = async (req, res, next) => {
   try {
@@ -79,43 +78,37 @@ exports.createCourse = async (req, res, next) => {
   }
 };
 
-exports.updateCourse = async (req, res, next) => {
-  try {
-    const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    console.log(course);
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: course,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
+exports.updateCourse = catchAsync(async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next(new AppError('No course found with that ID!', 404));
   }
-};
+  const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
-exports.deleteCourse = async (req, res, next) => {
-  try {
-    await Course.findByIdAndDelete(req.params.id);
-    res.status(204).json({
-      status: 'success',
-      data: {
-        data: null,
-      },
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: course,
+    },
+  });
+});
+
+exports.deleteCourse = catchAsync(async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next(new AppError('No course found with that ID!', 404));
   }
-};
+
+  await Course.findByIdAndDelete(req.params.id);
+
+  res.status(204).json({
+    status: 'success',
+    data: {
+      data: null,
+    },
+  });
+});
 
 exports.getBestSeller = async (req, res, next) => {
   try {
