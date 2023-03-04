@@ -23,7 +23,7 @@ const courseSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'A course must have a title.'],
   },
-  peiceDiscount: {
+  priceDiscount: {
     type: Number,
     validate: {
       validator: function (val) {
@@ -68,6 +68,7 @@ const courseSchema = new mongoose.Schema({
   },
   courseContent: {
     type: [{ name: String, content: [String] }],
+    required: true,
   },
   createdAt: {
     type: Date,

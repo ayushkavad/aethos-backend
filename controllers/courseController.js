@@ -48,10 +48,11 @@ exports.getAllCourses = async (req, res, next) => {
 };
 
 exports.getCourse = catchAsync(async (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  const course = await Course.findById(req.params.id);
+
+  if (!course) {
     return next(new AppError('No course found with that ID!', 404));
   }
-  const course = await Course.findById(req.params.id);
 
   res.status(200).json({
     status: 'success',
@@ -61,31 +62,26 @@ exports.getCourse = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createCourse = async (req, res, next) => {
-  try {
-    const newCourse = await Course.create(req.body);
-    res.status(201).json({
-      status: 'success',
-      data: {
-        data: newCourse,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+exports.createCourse = catchAsync(async (req, res, next) => {
+  const course = await Course.create(req.body);
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      data: course,
+    },
+  });
+});
 
 exports.updateCourse = catchAsync(async (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    return next(new AppError('No course found with that ID!', 404));
-  }
   const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
+
+  if (!course) {
+    return next(new AppError('No course found with that ID!', 404));
+  }
 
   res.status(200).json({
     status: 'success',
@@ -96,11 +92,11 @@ exports.updateCourse = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteCourse = catchAsync(async (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  const course = await Course.findByIdAndDelete(req.params.id);
+
+  if (!course) {
     return next(new AppError('No course found with that ID!', 404));
   }
-
-  await Course.findByIdAndDelete(req.params.id);
 
   res.status(204).json({
     status: 'success',
@@ -110,23 +106,20 @@ exports.deleteCourse = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getBestSeller = async (req, res, next) => {
-  try {
-    const course = await Course.find({ bestseller: { $ne: false } });
+exports.getBestSeller = catchAsync(async (req, res, next) => {
+  const course = await Course.find({ bestseller: { $ne: false } });
 
-    res.status(200).json({
-      status: 'success',
-      data: {
-        data: course,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
+  if (!course) {
+    return next(new AppError('No course found with that ID!', 404));
   }
-};
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: course,
+    },
+  });
+});
 
 exports.getTopRatings = async (req, res, next) => {
   try {
