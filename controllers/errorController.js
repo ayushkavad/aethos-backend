@@ -6,18 +6,19 @@ const handleCastErrorDB = (err) => {
 };
 
 const handleDuplicateFieldsDB = (err) => {
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+  const value = err.message.match(/(["'])(\\?.)*?\1/)[0];
   return new AppError(
-    `Duplicate field value ${value} please use another value!`
+    `Duplicate field value ${value} please use another value!`,
+    400
   );
 };
 
 const handleValidationErrorDB = (err) => {
   const errors = Object.values(err.errors).map((el) => el.message);
-  return new AppError(`Invalid Input data. ${errors.join('. ')}`);
+  return new AppError(`Invalid Input data. ${errors.join('. ')}`, 400);
 };
 
-const sendDevError = (err, res) => {
+const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
@@ -26,14 +27,14 @@ const sendDevError = (err, res) => {
   });
 };
 
-const sendProdError = (err, res) => {
+const sendErrorProd = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
     });
   } else {
-    console.error('ERROR');
+    // console.error('ERROR', err);
 
     res.status(500).json({
       status: 'error',
@@ -47,17 +48,16 @@ module.exports = (err, req, res, next) => {
   err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendDevError(err, res);
+    sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     let error = { ...err };
     error.message = err.message;
 
-    if (error.name === 'CastError') error = handleCastErrorDB(error);
-    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
-    if (error.name === 'ValidationError')
-      error = handleValidationErrorDB(error);
+    if (err.name === 'CastError') error = handleCastErrorDB(error);
+    if (err.code === 11000) error = handleDuplicateFieldsDB(error);
+    if (err.name === 'ValidationError') error = handleValidationErrorDB(error);
 
-    sendProdError(error, res);
+    sendErrorProd(error, res);
   }
 
   next();
