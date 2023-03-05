@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const app = require('./app');
+
+process.on('uncaugthException', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNCAUGTH EXCEPTION Shutting down...');
+  process.exit(1);
+});
 
 dotenv.config({ path: './config.env' });
+const app = require('./app');
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -11,7 +17,6 @@ const DB = process.env.DATABASE.replace(
 
 mongoose.set('strictQuery', false);
 
-// Database connection
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
@@ -23,6 +28,14 @@ mongoose
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`Server running at http://127.0.0.1:${port}`);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('UNCAUGTH REJECTION Shutting down...');
+  server.close(() => {
+    process.exit(1);
+  });
 });

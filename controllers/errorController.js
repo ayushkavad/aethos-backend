@@ -34,7 +34,7 @@ const sendErrorProd = (err, res) => {
       message: err.message,
     });
   } else {
-    // console.error('ERROR', err);
+    console.error('ERROR', err);
 
     res.status(500).json({
       status: 'error',
@@ -53,8 +53,11 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
     error.message = err.message;
 
+    // mongoose cast error invalid path
     if (err.name === 'CastError') error = handleCastErrorDB(error);
+    // duplication error comes from mongodb driver
     if (err.code === 11000) error = handleDuplicateFieldsDB(error);
+    // mongoose validation error
     if (err.name === 'ValidationError') error = handleValidationErrorDB(error);
 
     sendErrorProd(error, res);
