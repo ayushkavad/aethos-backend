@@ -4,6 +4,12 @@ const User = require('./../model/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+const signInToken = (id) => {
+  return jwt.sign({ id }, process.env.SECRET_KEY, {
+    expiresIn: process.env.EXPIRES_IN,
+  });
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -14,9 +20,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordChangedAt: req.body.passwordChangedAt,
   });
 
-  const token = jwt.sign({ id: newUser._id }, process.env.SECRET_KEY, {
-    expiresIn: process.env.EXPIRES_IN,
-  });
+  const token = signInToken(newUser._id);
 
   res.status(201).json({
     status: 'success',
@@ -30,7 +34,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new AppError('Please enter email and password!', 400));
+    return next(new AppError('Please provide email and password!', 400));
   }
 
   //2) check if user exist && password correct
@@ -41,9 +45,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   //3) if everythings ok sens token to cline
-  const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY, {
-    expiresIn: process.env.EXPIRES_IN,
-  });
+  const token = signInToken(user._id);
 
   res.status(200).json({
     status: 'success',
@@ -87,3 +89,15 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    console.log(req.body.role);
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError(`You don't have permission to perform this action`, 403)
+      );
+    }
+    next();
+  };
+};

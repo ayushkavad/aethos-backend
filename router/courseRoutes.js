@@ -16,6 +16,10 @@ router
   .route('/:id')
   .get(courseControllers.getCourse)
   .patch(courseControllers.updateCourse)
-  .delete(courseControllers.deleteCourse);
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin'),
+    courseControllers.deleteCourse
+  );
 
 module.exports = router;
