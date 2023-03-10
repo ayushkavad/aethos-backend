@@ -12,6 +12,18 @@ const signInToken = (id) => {
   });
 };
 
+const createSendToken = (user, statusCode, res) => {
+  const token = signInToken(user._id);
+
+  res.status(statusCode).json({
+    status: 'success',
+    token,
+    data: {
+      user,
+    },
+  });
+};
+
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
@@ -19,16 +31,17 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     role: req.body.role,
-    passwordChangedAt: req.body.passwordChangedAt,
   });
 
-  const token = signInToken(newUser._id);
+  createSendToken(newUser, 201, res);
 
-  res.status(201).json({
-    status: 'success',
-    token,
-    data: newUser,
-  });
+  // const token = signInToken(newUser._id);
+
+  // res.status(201).json({
+  //   status: 'success',
+  //   token,
+  //   data: newUser,
+  // });
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -42,17 +55,15 @@ exports.login = catchAsync(async (req, res, next) => {
   //2) check if user exist && password correct
   const user = await User.findOne({ email }).select('+password');
 
-  if (!user && !(await user.correctPassword(password, user.passowrd))) {
+  console.log(user);
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Please provide valid email and password', 401));
   }
 
   //3) if everythings ok sens token to cline
-  const token = signInToken(user._id);
 
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -94,7 +105,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    console.log(req.body.role);
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError(`You don't have permission to perform this action`, 403)
@@ -106,7 +116,6 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
-  console.log(user);
 
   if (!user) {
     return next(new AppError('No user found with that email address.', 404));
@@ -163,11 +172,20 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save({ validateBeforeSave: false });
 
-  console.log(user);
-  const token = signInToken(user._id);
+  // console.log(user);
+  createSendToken(user, 200, res);
+});
 
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+exports.updatePassowrd = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('+password');
+
+  if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+    return next(new AppError('Your current password is wrong!', 400));
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
+
+  createSendToken(user, 200, res);
 });
