@@ -3,6 +3,20 @@ const Course = require('./../model/courseModel');
 const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 
+exports.deleteMyCourse = async (req, res, next) => {
+  const course = await Course.findById(req.params.id);
+
+  if (req.user.id !== course.instructor.id) {
+    return next(
+      new AppError(
+        `You can not perform this action. You are not owner of this course!`,
+        400
+      )
+    );
+  }
+  next();
+};
+
 exports.getAllCourses = factory.getAll(Course);
 exports.getCourse = factory.getOne(Course, { path: 'reviews' });
 exports.createCourse = factory.createOne(Course);

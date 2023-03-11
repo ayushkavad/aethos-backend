@@ -19,6 +19,11 @@ router
   .route('/:id')
   .get(courseControllers.getCourse)
   .patch(courseControllers.updateCourse)
-  .delete(authController.protect, courseControllers.deleteCourse);
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin'),
+    courseControllers.deleteMyCourse,
+    courseControllers.deleteCourse
+  );
 
 module.exports = router;
