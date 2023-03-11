@@ -9,6 +9,7 @@ router
   .post(
     authController.protect,
     authController.restrictTo('user'),
+    reviewController.setCourseAndUserId,
     reviewController.createReview
   );
 

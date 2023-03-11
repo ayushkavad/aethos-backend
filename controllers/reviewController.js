@@ -1,5 +1,6 @@
 const Review = require('./../model/reviewModel');
 const catchAsync = require('./../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 exports.getAllReview = catchAsync(async (req, res, next) => {
   let filter;
@@ -55,13 +56,26 @@ exports.updateReview = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deleteReview = catchAsync(async (req, res, next) => {
-  await Review.findByIdAndDelete(req.params.id);
+exports.setCourseAndUserId = (req, res, next) => {
+  if (!req.body.course) req.body.course = req.params.courseId;
+  if (!req.body.user) req.body.user = req.user.id;
 
-  res.status(204).json({
-    status: 'success',
-    data: {
-      data: null,
-    },
-  });
-});
+  next();
+};
+
+exports.createReview = factory.createOne(Review);
+exports.updateReview = factory.updateOne(Review);
+exports.deleteReview = factory.deleteOne(Review);
+
+// exports.deleteReview = exports.deleteReview = catchAsync(
+//   async (req, res, next) => {
+//     await Review.findByIdAndDelete(req.params.id);
+
+//     res.status(204).json({
+//       status: 'success',
+//       data: {
+//         data: null,
+//       },
+//     });
+//   }
+// );
