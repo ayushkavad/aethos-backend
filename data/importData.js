@@ -26,10 +26,13 @@ mongoose
 const course = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data.json`, 'utf-8')
 );
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
 
 const importData = async () => {
   try {
-    await Course.create(course);
+    // await Course.create(course);
+    await User.create(users, { validateBeforeSave: false });
+
     console.log('Data lodded successfully...');
   } catch (err) {
     console.log(err);

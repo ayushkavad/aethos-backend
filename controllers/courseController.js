@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { populate } = require('../model/userModel');
 const AppError = require('../utils/appError');
 const Course = require('./../model/courseModel');
 const APIFeatures = require('./../utils/apiFeatures');
@@ -28,6 +29,10 @@ exports.getAllCourses = async (req, res, next) => {
           },
         },
       ]);
+      courses = await Course.populate(courses, {
+        path: 'instructor',
+        select: '-__v -passwordChangedAt',
+      });
     } else {
       courses = await features.query;
     }
@@ -48,8 +53,7 @@ exports.getAllCourses = async (req, res, next) => {
 };
 
 exports.getCourse = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.id);
-
+  const course = await Course.findById(req.params.id).populate('reviews');
   if (!course) {
     return next(new AppError('No course found with that ID!', 404));
   }

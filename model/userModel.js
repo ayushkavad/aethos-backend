@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'lead-guide', 'admin'],
+    enum: ['user', 'admin'],
     default: 'user',
   },
   active: {
@@ -103,8 +103,6 @@ userSchema.methods.createPasswordResetToken = function () {
 
   // valid reset token for 10 min
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-
-  console.log(resetToken, this.passwordResetToken);
 
   return resetToken;
 };
