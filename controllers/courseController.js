@@ -1,116 +1,13 @@
 const AppError = require('../utils/appError');
 const Course = require('./../model/courseModel');
-const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const factory = require('./handlerFactory');
 
-exports.getAllCourses = async (req, res, next) => {
-  try {
-    const features = new APIFeatures(Course.find(), req.query)
-      .filter()
-      .sort()
-      .limit()
-      .paginate();
-
-    let courses;
-    if (req.query.search) {
-      courses = await Course.aggregate([
-        {
-          $search: {
-            index: 'SearchTitle',
-            text: {
-              query: req.query.search,
-              path: {
-                wildcard: '*',
-              },
-              fuzzy: {},
-            },
-          },
-        },
-      ]);
-      courses = await Course.populate(courses, {
-        path: 'instructor',
-        select: '-__v -passwordChangedAt',
-      });
-    } else {
-      courses = await features.query;
-    }
-
-    res.status(200).json({
-      status: 'success',
-      courses: courses.length,
-      data: {
-        data: courses,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
-
-exports.getCourse = catchAsync(async (req, res, next) => {
-  const course = await Course.findById(req.params.id).populate('reviews');
-  if (!course) {
-    return next(new AppError('No course found with that ID!', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      data: course,
-    },
-  });
-});
-
-// exports.createCourse = catchAsync(async (req, res, next) => {
-//   const course = await Course.create(req.body);
-
-//   res.status(201).json({
-//     status: 'success',
-//     data: {
-//       data: course,
-//     },
-//   });
-// });
-
-// exports.updateCourse = catchAsync(async (req, res, next) => {
-//   const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
-//     new: true,
-//     runValidators: true,
-//   });
-
-//   if (!course) {
-//     return next(new AppError('No course found with that ID!', 404));
-//   }
-
-//   res.status(200).json({
-//     status: 'success',
-//     data: {
-//       data: course,
-//     },
-//   });
-// });
-
+exports.getAllCourses = factory.getAll(Course);
+exports.getCourse = factory.getOne(Course, { path: 'reviews' });
 exports.createCourse = factory.createOne(Course);
 exports.updateCourse = factory.updateOne(Course);
 exports.deleteCourse = factory.deleteOne(Course);
-// exports.deleteCourse = catchAsync(async (req, res, next) => {
-//   const course = await Course.findByIdAndDelete(req.params.id);
-
-//   if (!course) {
-//     return next(new AppError('No course found with that ID!', 404));
-//   }
-
-//   res.status(204).json({
-//     status: 'success',
-//     data: {
-//       data: null,
-//     },
-//   });
-// });
 
 exports.getBestSeller = catchAsync(async (req, res, next) => {
   const course = await Course.find({ bestseller: { $ne: false } });

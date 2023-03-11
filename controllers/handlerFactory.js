@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
@@ -38,13 +40,72 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findById(req.params.id).populate('reviews');
+    const doc = await Model.create(req.body);
+
+    res.status(201).json({
+      status: 'success',
+      data: {
+        data: doc,
+      },
+    });
+  });
+
+exports.getOne = (Model, populateObj) =>
+  catchAsync(async (req, res, next) => {
+    let query = Model.findById(req.params.id);
+    if (populateObj) query = query.populate(populateObj);
+    const doc = await query;
     if (!doc) {
       return next(new AppError('No document found with that ID!', 404));
     }
 
     res.status(200).json({
       status: 'success',
+      data: {
+        data: doc,
+      },
+    });
+  });
+
+exports.getAll = (Model) =>
+  catchAsync(async (req, res, next) => {
+    // To Allow for nested GET Reviews on Course
+    let filter;
+    if (req.params.courseId) filter = { course: req.params.courseId };
+
+    const features = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limit()
+      .paginate();
+
+    let doc;
+    if (Model === mongoose.model('Course') && req.query.search) {
+      doc = await Model.aggregate([
+        {
+          $search: {
+            index: 'SearchTitle',
+            text: {
+              query: req.query.search,
+              path: {
+                wildcard: '*',
+              },
+              fuzzy: {},
+            },
+          },
+        },
+      ]);
+      doc = await Model.populate(doc, {
+        path: 'instructor',
+        select: '-__v -passwordChangedAt',
+      });
+    } else {
+      doc = await features.query;
+    }
+
+    res.status(200).json({
+      status: 'success',
+      docs: doc.length,
       data: {
         data: doc,
       },
