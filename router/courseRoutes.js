@@ -13,7 +13,12 @@ router.route('/best-seller').get(courseControllers.getBestSeller);
 router
   .route('/')
   .get(courseControllers.getAllCourses)
-  .post(courseControllers.createCourse);
+  .post(
+    authController.protect,
+    authController.restrictTo('admin'),
+    courseControllers.createMyCourse,
+    courseControllers.createCourse
+  );
 
 router
   .route('/:id')
