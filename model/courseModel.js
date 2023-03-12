@@ -110,22 +110,6 @@ courseSchema.pre(/^find/, function (next) {
   next();
 });
 
-// courseSchema.pre(/^find/, function (next) {
-//   // this.find({ bestseller: { $ne: false } });
-//   next();
-// });
-
-// courseSchema.post(/^find/, (doc, next) => {
-//   console.log(doc);
-//   next();
-// });
-
-// courseSchema.pre('aggregate', function (next) {
-//   console.log(this.pipeline());
-
-// next();
-// });
-
 const Course = mongoose.model('Course', courseSchema);
 
 module.exports = Course;
