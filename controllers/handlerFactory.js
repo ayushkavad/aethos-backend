@@ -112,3 +112,5 @@ exports.deleteOne = (Model) =>
       },
     });
   });
+
+// console.log('hello')
