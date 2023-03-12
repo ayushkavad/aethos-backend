@@ -23,11 +23,16 @@ router
 router
   .route('/:id')
   .get(courseControllers.getCourse)
-  .patch(courseControllers.updateCourse)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin'),
+    courseControllers.action,
+    courseControllers.updateCourse
+  )
   .delete(
     authController.protect,
     authController.restrictTo('admin'),
-    courseControllers.deleteMyCourse,
+    courseControllers.action,
     courseControllers.deleteCourse
   );
 

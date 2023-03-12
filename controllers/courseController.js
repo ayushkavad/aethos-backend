@@ -7,7 +7,7 @@ exports.createMyCourse = (req, res, next) => {
   next();
 };
 
-exports.deleteMyCourse = async (req, res, next) => {
+exports.action = async (req, res, next) => {
   const course = await Course.findById(req.params.id);
 
   if (req.user.id !== course.instructor.id) {

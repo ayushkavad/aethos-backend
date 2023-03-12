@@ -90,6 +90,10 @@ const courseSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+// courseSchema.index({price: 1})
+courseSchema.index({ price: 1, ratingsAverage: -1 });
+courseSchema.index({ slug: 1 });
+
 courseSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'course',
