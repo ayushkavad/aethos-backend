@@ -61,7 +61,7 @@ reviewSchema.statics.calcAverageRatings = async function (courseId) {
       ratingsAverage: stats[0].avgRating,
     });
   } else {
-    await Course.findByIdAndUpdate(Course, {
+    await Course.findByIdAndUpdate(courseId, {
       ratingsQuantity: 0,
       ratingsAverage: 4.5,
     });
@@ -73,11 +73,9 @@ reviewSchema.post('save', function () {
   this.constructor.calcAverageRatings(this.course);
 });
 
-// findByIdAndUpdate
-// findByIdAndDelete
 reviewSchema.pre(/^findOneAnd/, async function (next) {
-  this.r = await this.findOne();
-  // console.log(this.r);
+  this.r = await this.findOne().clone();
+  console.log(this.r);
   next();
 });
 

@@ -63,15 +63,10 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
     error.message = err.message;
 
-    // mongoose cast error invalid path
     if (err.name === 'CastError') error = handleCastErrorDB(error);
-    // duplication error comes from mongodb driver
     if (err.code === 11000) error = handleDuplicateFieldsDB(error);
-    // mongoose validation error
     if (err.name === 'ValidationError') error = handleValidationErrorDB(error);
-    // invaild jsonwebtoken error
     if (err.name === 'JsonWebTokenError') error = handleJWTError();
-    // expired jsonwebtoken error
     if (err.name === 'TokenExpiredError') error = handleJWTExpiredError();
     sendErrorProd(error, res);
   }

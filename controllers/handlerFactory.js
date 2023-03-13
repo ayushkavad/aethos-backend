@@ -54,6 +54,7 @@ exports.getOne = (Model, populateObj) =>
     let query = Model.findById(req.params.id);
     if (populateObj) query = query.populate(populateObj);
     const doc = await query;
+
     if (!doc) {
       return next(new AppError('No document found with that ID!', 404));
     }

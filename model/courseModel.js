@@ -29,12 +29,19 @@ const courseSchema = new mongoose.Schema(
     },
     priceDiscount: {
       type: Number,
-      validate: {
-        validator: function (val) {
-          return val < this.price;
-        },
-        message: 'Discount price ({VALUE}) should be below regular price',
-      },
+      default: 0,
+      min: [0, 'Price discount must be above 0'],
+      max: [100, 'Price discount must be below or equal 100'],
+      // validate: {
+      //   validator: function (val) {
+      //     return val < this.price;
+      //   },
+      //   message: 'Discount price ({VALUE}) should be below regular price',
+      // },
+    },
+    currentPrice: {
+      type: Number,
+      default: this.price,
     },
     ratingsAverage: {
       type: Number,
@@ -91,7 +98,6 @@ const courseSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-// courseSchema.index({price: 1})
 courseSchema.index({ price: 1, ratingsAverage: -1 });
 courseSchema.index({ slug: 1 });
 
@@ -112,6 +118,12 @@ courseSchema.pre(/^find/, function (next) {
     select: '-__v -passwordChangedAt',
   });
 
+  next();
+});
+
+courseSchema.pre('save', function (next) {
+  const calcDiscountPrice = (this.price * this.priceDiscount) / 100;
+  this.currentPrice = this.price - calcDiscountPrice;
   next();
 });
 
