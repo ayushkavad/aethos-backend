@@ -32,16 +32,6 @@ const courseSchema = new mongoose.Schema(
       default: 0,
       min: [0, 'Price discount must be above 0'],
       max: [100, 'Price discount must be below or equal 100'],
-      // validate: {
-      //   validator: function (val) {
-      //     return val < this.price;
-      //   },
-      //   message: 'Discount price ({VALUE}) should be below regular price',
-      // },
-    },
-    currentPrice: {
-      type: Number,
-      default: this.price,
     },
     ratingsAverage: {
       type: Number,
@@ -100,6 +90,10 @@ const courseSchema = new mongoose.Schema(
 
 courseSchema.index({ price: 1, ratingsAverage: -1 });
 courseSchema.index({ slug: 1 });
+
+courseSchema.virtual('currentPrice').get(function () {
+  return this.price - (this.price * this.priceDiscount) / 100;
+});
 
 courseSchema.virtual('reviews', {
   ref: 'Review',
