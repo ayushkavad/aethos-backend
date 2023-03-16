@@ -27,8 +27,8 @@ router
     authController.protect,
     authController.restrictTo('admin'),
     courseControllers.action,
-    courseControllers.uploadCoursePhoto,
-    courseControllers.resizeCoursePhoto,
+    courseControllers.uploadCourseImageCover,
+    courseControllers.resizeCourseImageCover,
     courseControllers.updateCourse
   )
   .delete(

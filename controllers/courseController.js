@@ -33,14 +33,14 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-exports.resizeCoursePhoto = (req, res, next) => {
+exports.resizeCourseImageCover = (req, res, next) => {
   if (!req.file) next();
 
-  req.file.filename = `course-${Date.now()}.png`;
+  req.file.filename = `course-${req.params.id}-${Date.now()}.jpeg`;
 
   sharp(req.file.buffer)
-    .resize(1200, 600)
-    .toFormat('png')
+    .resize(2000, 1333)
+    .toFormat('jpeg')
     .jpeg({ quality: 90 })
     .toFile(`public/img/courses/${req.file.filename}`);
 
@@ -52,7 +52,7 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadCoursePhoto = upload.single('imageCover');
+exports.uploadCourseImageCover = upload.single('imageCover');
 
 exports.getAllCourses = factory.getAll(Course);
 exports.getBestSeller = factory.getAll(Course);

@@ -81,6 +81,9 @@ exports.createOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    if (req.file) {
+      req.body.imageCover = req.file.filename;
+    }
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,

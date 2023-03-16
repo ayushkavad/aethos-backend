@@ -44,11 +44,7 @@ const courseSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    imageCover: {
-      type: String,
-      default: 'default.png',
-      required: [true, 'A course must have a image cover.'],
-    },
+    imageCover: String,
     summary: {
       type: String,
       trim: true,
