@@ -2,8 +2,8 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Course = require('./../model/courseModel');
-const User = require('../model/userModel');
 const Review = require('../model/reviewModel');
+const User = require('../model/userModel');
 
 dotenv.config({ path: './config.env' });
 
@@ -23,15 +23,17 @@ mongoose
     console.log('DB connect successfully...');
   });
 
-const course = JSON.parse(fs.readFileSync(`${__dirname}/data.json`, 'utf-8'));
+const courses = JSON.parse(fs.readFileSync(`${__dirname}/data.json`, 'utf-8'));
 const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
-const review = JSON.parse(fs.readFileSync(`${__dirname}/review.json`, 'utf-8'));
+const reviews = JSON.parse(
+  fs.readFileSync(`${__dirname}/review.json`, 'utf-8')
+);
 
 const importData = async () => {
   try {
-    // await Course.create(course);
-    await Review.create(review);
-    // await User.create(users, { validateBeforeSave: false });
+    await Course.create(courses);
+    await Review.create(reviews);
+    await User.create(users, { validateBeforeSave: false });
 
     console.log('Data lodded successfully...');
   } catch (err) {
@@ -42,8 +44,9 @@ const importData = async () => {
 
 const deleteData = async () => {
   try {
-    // await Course.deleteMany();
-    await Review.deleteMany();
+    await Course.deleteMany(courses);
+    await Review.deleteMany(reviews);
+    await User.deleteMany(users);
     console.log('Data deleted successfully...');
   } catch (err) {
     console.log(err);
