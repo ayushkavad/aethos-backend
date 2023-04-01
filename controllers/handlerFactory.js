@@ -7,9 +7,11 @@ exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To Allow for nested GET Reviews on Course
     let filter = {};
+
     if (req.params.courseId) filter = { course: req.params.courseId };
     if (req.originalUrl.split('/').includes('best-seller'))
       filter = { bestseller: { $ne: false } };
+
     const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
@@ -49,10 +51,10 @@ exports.getAll = (Model) =>
     });
   });
 
-exports.getOne = (Model, populateObj) =>
+exports.getOne = (Model, populateArr) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
-    if (populateObj) query = query.populate(populateObj);
+    if (populateArr) query = query.populate(populateArr);
     const doc = await query;
 
     if (!doc) {
@@ -69,6 +71,7 @@ exports.getOne = (Model, populateObj) =>
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    if (!req.body.course) req.body.course = req.params.courseId;
     const doc = await Model.create(req.body);
 
     res.status(201).json({

@@ -56,7 +56,7 @@ exports.uploadCourseImageCover = upload.single('imageCover');
 
 exports.getAllCourses = factory.getAll(Course);
 exports.getBestSeller = factory.getAll(Course);
-exports.getCourse = factory.getOne(Course, { path: 'reviews' });
+exports.getCourse = factory.getOne(Course, ['reviews', 'mediaContent']);
 exports.createCourse = factory.createOne(Course);
 exports.updateCourse = factory.updateOne(Course);
 exports.deleteCourse = factory.deleteOne(Course);

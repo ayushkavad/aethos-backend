@@ -2,10 +2,12 @@ const express = require('express');
 const courseControllers = require('./../controllers/courseController');
 const authController = require('./../controllers/authController');
 const reviewRouter = require('./../router/reviewRouters');
+const uploadRouter = require('./../router/mediaRouters');
 
 const router = express.Router();
 
 router.use('/:courseId/reviews', reviewRouter);
+router.use('/:courseId/uploads', uploadRouter);
 
 router.route('/top-ratings').get(courseControllers.getTopRatings);
 router.route('/best-seller').get(courseControllers.getBestSeller);

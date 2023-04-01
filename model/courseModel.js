@@ -65,10 +65,6 @@ const courseSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'A course must have a requirement '],
     },
-    courseContent: {
-      type: [{ name: String, content: [String] }],
-      required: true,
-    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -98,6 +94,12 @@ courseSchema.virtual('reviews', {
   localField: '_id',
 });
 
+courseSchema.virtual('mediaContent', {
+  ref: 'Media',
+  foreignField: 'course',
+  localField: '_id',
+});
+
 courseSchema.pre('save', function (next) {
   this.slug = slugify(this.title, { lower: true });
   next();
@@ -111,6 +113,13 @@ courseSchema.pre(/^find/, function (next) {
 
   next();
 });
+
+// courseSchema.pre('findOne', function (next) {
+//   this.populate({
+//     path: 'mediaContent',
+//   });
+//   next();
+// });
 
 courseSchema.pre('save', function (next) {
   const calcDiscountPrice = (this.price * this.priceDiscount) / 100;
