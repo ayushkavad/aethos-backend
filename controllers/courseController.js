@@ -10,7 +10,9 @@ exports.createMyCourse = (req, res, next) => {
 };
 
 exports.action = async (req, res, next) => {
-  const course = await Course.findById(req.params.id);
+  let id;
+  req.params.courseId ? (id = req.params.courseId) : req.params.id;
+  const course = await Course.findById(id);
 
   if (req.user.id !== course.instructor.id) {
     return next(

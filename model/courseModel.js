@@ -114,13 +114,6 @@ courseSchema.pre(/^find/, function (next) {
   next();
 });
 
-// courseSchema.pre('findOne', function (next) {
-//   this.populate({
-//     path: 'mediaContent',
-//   });
-//   next();
-// });
-
 courseSchema.pre('save', function (next) {
   const calcDiscountPrice = (this.price * this.priceDiscount) / 100;
   this.currentPrice = this.price - calcDiscountPrice;

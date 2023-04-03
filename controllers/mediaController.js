@@ -43,4 +43,7 @@ exports.videoProcess = (req, res, next) => {
 };
 
 exports.getAllUploads = factory.getAll(Media);
+exports.getOneUpload = factory.getOne(Media);
 exports.uploadFiles = factory.createOne(Media);
+exports.updateUpload = factory.updateOne(Media);
+exports.deleteUpload = factory.deleteOne(Media);
