@@ -23,7 +23,6 @@ const multerFilter = (req, file, cb) => {
       false
     );
   }
-
   cb(null, true);
 };
 

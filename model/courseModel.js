@@ -110,7 +110,6 @@ courseSchema.pre(/^find/, function (next) {
     path: 'instructor',
     select: '-__v -passwordChangedAt',
   });
-
   next();
 });
 

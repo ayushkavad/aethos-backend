@@ -60,14 +60,11 @@ exports.login = catchAsync(async (req, res, next) => {
   //2) check if user exist && password correct
   const user = await User.findOne({ email }).select('+password');
 
-  console.log(user);
-
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Please provide valid email and password', 401));
   }
 
   //3) if everythings ok sens token to cline
-
   createSendToken(user, 200, res);
 });
 
