@@ -17,9 +17,9 @@ router
     mediaController.uploadFiles
   );
 
-router.route('/:id').get(getOneUpload);
+router.route('/:id').get(mediaController.getOneUpload);
 router
   .route('/:courseId/uploads/:id')
-  .delete(courseController.action, courseController.deleteUpload);
+  .delete(courseController.action, mediaController.deleteUpload);
 
 module.exports = router;

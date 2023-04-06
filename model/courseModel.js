@@ -50,7 +50,7 @@ const courseSchema = new mongoose.Schema(
       trim: true,
       required: [true, 'A course must have a summary'],
     },
-    discription: {
+    description: {
       type: String,
       trim: true,
       required: [true, 'A course must have a discription.'],
