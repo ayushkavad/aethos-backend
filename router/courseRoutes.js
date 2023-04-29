@@ -19,6 +19,7 @@ router
     authController.protect,
     authController.restrictTo('admin'),
     courseControllers.createMyCourse,
+    courseControllers.process,
     courseControllers.createCourse
   );
 

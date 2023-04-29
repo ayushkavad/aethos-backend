@@ -44,9 +44,9 @@ const importData = async () => {
 
 const deleteData = async () => {
   try {
-    await Course.deleteMany(courses);
-    await Review.deleteMany(reviews);
-    await User.deleteMany(users);
+    await Course.deleteMany();
+    await Review.deleteMany();
+    // await User.deleteMany(users);
     console.log('Data deleted successfully...');
   } catch (err) {
     console.log(err);

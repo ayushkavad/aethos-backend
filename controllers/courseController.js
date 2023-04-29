@@ -4,6 +4,12 @@ const AppError = require('../utils/appError');
 const Course = require('./../model/courseModel');
 const factory = require('./handlerFactory');
 
+exports.process = (req, res, next) => {
+  req.body.learningContent = req.body.learningContent.split('\n');
+  req.body.requirement = req.body.requirement.split('\n');
+  next();
+};
+
 exports.createMyCourse = (req, res, next) => {
   if (req.user.id) req.body.instructor = req.user.id;
   next();
@@ -11,7 +17,8 @@ exports.createMyCourse = (req, res, next) => {
 
 exports.action = async (req, res, next) => {
   let id;
-  req.params.courseId ? (id = req.params.courseId) : req.params.id;
+  req.params.courseId ? (id = req.params.courseId) : (id = req.params.id);
+
   const course = await Course.findById(id);
 
   if (req.user.id !== course.instructor.id) {

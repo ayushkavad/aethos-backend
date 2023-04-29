@@ -56,12 +56,12 @@ const courseSchema = new mongoose.Schema(
       required: [true, 'A course must have a discription.'],
     },
     learningContent: {
-      type: String,
+      type: [String],
       trim: true,
       required: [true, 'A course must have a learning content.'],
     },
     requirement: {
-      type: String,
+      type: [String],
       trim: true,
       required: [true, 'A course must have a requirement '],
     },
