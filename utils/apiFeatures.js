@@ -1,11 +1,24 @@
-class APIFeatures {
+/**
+ * This class provides functions for filtering, sorting, and paginating results from a database.
+ */
+ class APIFeatures {
+  /**
+   * Creates a new APIFeatures instance.
+   *
+   * @param {object} query The database query.
+   * @param {string} queryString The query string.
+   */
   constructor(query, queryString) {
     this.query = query;
     this.queryString = queryString;
   }
 
+  /**
+   * Filters the results based on the query string.
+   *
+   * @returns {APIFeatures} This object.
+   */
   filter() {
-    // Filtring
     const queryObj = { ...this.queryString };
     const excludeFiedls = ['page', 'sort', 'limit', 'fields'];
 
@@ -21,8 +34,12 @@ class APIFeatures {
     return this;
   }
 
+  /**
+   * Sorts the results based on the query string.
+   *
+   * @returns {APIFeatures} This object.
+   */
   sort() {
-    // Sorting
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy);
@@ -32,8 +49,12 @@ class APIFeatures {
     return this;
   }
 
+  /**
+   * Limits the results based on the query string.
+   *
+   * @returns {APIFeatures} This object.
+   */
   limit() {
-    // Limiting
     if (this.queryString.fields) {
       const fields = this.queryString.fields.split(',').join(' ');
       this.query = this.query.select(fields);
@@ -43,8 +64,12 @@ class APIFeatures {
     return this;
   }
 
+  /**
+   * Paginates the results based on the query string.
+   *
+   * @returns {APIFeatures} This object.
+   */
   paginate() {
-    // Pagination
     const page = this.queryString.page * 1 || 1;
     const limit = this.queryString.limit * 1 || 100;
     const skip = (page - 1) * limit;
@@ -53,4 +78,9 @@ class APIFeatures {
   }
 }
 
+/**
+ * Exports the `APIFeatures` class.
+ *
+ * @type {APIFeatures}
+ */
 module.exports = APIFeatures;
