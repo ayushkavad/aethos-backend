@@ -50,6 +50,8 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
 });
 
+
+// Define the pre-save hooks for the user model.
 userSchema.pre('save', async function (next) {
   // it runs when password is modified
   if (!this.isModified('password')) return next();
@@ -68,11 +70,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+// Define the pre-find hook for the user model.
 userSchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });
   next();
 });
 
+// Define the method to check if the password is correct.
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
@@ -80,6 +84,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
+// Define the method to check if the password was changed after a certain timestamp.
 userSchema.methods.changedPasswordAfter = async function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
@@ -93,6 +98,7 @@ userSchema.methods.changedPasswordAfter = async function (JWTTimestamp) {
   return false;
 };
 
+// Define the method to generate a password reset token.
 userSchema.methods.createPasswordResetToken = function () {
   // reset token for forgot password
   const resetToken = crypto.randomBytes(32).toString('hex');
@@ -109,6 +115,8 @@ userSchema.methods.createPasswordResetToken = function () {
   return resetToken;
 };
 
+// Define the User model.
 const User = mongoose.model('User', userSchema);
 
+// Export the User model.
 module.exports = User;

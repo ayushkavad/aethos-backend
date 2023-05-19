@@ -81,13 +81,25 @@ const courseSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+// Index the course model.
 courseSchema.index({ price: 1, ratingsAverage: -1 });
 courseSchema.index({ slug: 1 });
 
-courseSchema.virtual('currentPrice').get(function () {
+/**
+ * Defines a virtual property called `currentPrice` on the `Course` model.
+ *
+ * @type {mongoose.Schema.Virtual}
+ */
+ courseSchema.virtual('currentPrice').get(function () {
+  /**
+   * Calculates the current price of the course by subtracting the discount from the original price.
+   *
+   * @returns {number} The current price of the course.
+   */
   return this.price - (this.price * this.priceDiscount) / 100;
 });
 
+// Define the virtual properties for the course model.
 courseSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'course',
@@ -100,12 +112,15 @@ courseSchema.virtual('mediaContent', {
   localField: '_id',
 });
 
+// Define the pre-save hooks for the course model.
 courseSchema.pre('save', function (next) {
+  // Generate the slug for the course.
   this.slug = slugify(this.title, { lower: true });
   next();
 });
 
 courseSchema.pre(/^find/, function (next) {
+  // Populate the instructor for the course.
   this.populate({
     path: 'instructor',
     select: '-__v -passwordChangedAt',
@@ -114,11 +129,14 @@ courseSchema.pre(/^find/, function (next) {
 });
 
 courseSchema.pre('save', function (next) {
+  // Calculate the current price of the course.
   const calcDiscountPrice = (this.price * this.priceDiscount) / 100;
   this.currentPrice = this.price - calcDiscountPrice;
   next();
 });
 
+// Define the Course model.
 const Course = mongoose.model('Course', courseSchema);
 
+// Export the Course model.
 module.exports = Course;

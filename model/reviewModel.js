@@ -30,9 +30,12 @@ const reviewSchema = new mongoose.Schema(
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
+// Index the review model.
 reviewSchema.index({ course: 1, user: 1 }, { unique: true });
 
+// Define the pre-find hook for the review model.
 reviewSchema.pre(/^find/, function (next) {
+  // Populate the user for the review.
   this.populate({
     path: 'user',
     select: 'name photo',
@@ -40,6 +43,7 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
+// Define the static method to calculate the average ratings for a course.
 reviewSchema.statics.calcAverageRatings = async function (courseId) {
   const stats = await this.aggregate([
     {
@@ -67,20 +71,25 @@ reviewSchema.statics.calcAverageRatings = async function (courseId) {
   }
 };
 
+// Define the post-save hook for the review model.
 reviewSchema.post('save', function () {
   // this points to current review
   this.constructor.calcAverageRatings(this.course);
 });
 
+// Define the pre-findOneAnd hook for the review model.
 reviewSchema.pre(/^findOneAnd/, async function (next) {
   this.r = await this.findOne().clone();
   next();
 });
 
+// Define the post-findOneAnd hook for the review model.
 reviewSchema.post(/^findOneAnd/, async function () {
   await this.r.constructor.calcAverageRatings(this.r.course);
 });
 
+// Define the Review model.
 const Review = mongoose.model('Review', reviewSchema);
 
+// Export the Review model.
 module.exports = Review;
