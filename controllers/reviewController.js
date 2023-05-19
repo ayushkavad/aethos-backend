@@ -1,3 +1,6 @@
+const factory = require('./handlerFactory');
+const Review = require('./../model/reviewModel');
+
 /**
  * Sets the `course` and `user` properties on the request body if they are not present.
  *
@@ -5,7 +8,7 @@
  * @param {Response} res The response object.
  * @param {NextFunction} next The next function in the middleware chain.
  */
- exports.setCourseAndUserId = (req, res, next) => {
+exports.setCourseAndUserId = (req, res, next) => {
   if (!req.body.course) req.body.course = req.params.courseId;
   if (!req.body.user) req.body.user = req.user.id;
   next();

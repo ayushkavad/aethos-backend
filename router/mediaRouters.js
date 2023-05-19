@@ -5,7 +5,7 @@ const courseController = require('./../controllers/courseController');
 
 const router = express.Router({ mergeParams: true });
 
-// Protect all routers and restrictTo admin
+// // Protect all routers and restrictTo admin
 router.use(authController.protect, authController.restrictTo('admin'));
 
 router
