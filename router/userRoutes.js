@@ -1,39 +1,49 @@
 const express = require('express');
-const userController = require('../controllers/userController');
-const authController = require('./../controllers/authController');
+const {
+  getMe,
+  getUser,
+  uploadUserPhoto,
+  resizeUserPhoto,
+  updateMe,
+  deleteMe,
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser,
+} = require('../controllers/userController');
+const {
+  signup,
+  login,
+  logout,
+  forgotPassword,
+  resetPassword,
+  protect,
+  updatePassword,
+  restrictTo,
+} = require('./../controllers/authController');
 
 const router = express.Router();
 
-router.post('/signup', authController.signup);
-router.post('/login', authController.login);
-router.post('logout', authController.logout);
+router.post('/signup', signup);
+router.post('/login', login);
+router.post('logout', logout);
 
-router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword);
+router.post('/forgotPassword', forgotPassword);
+router.patch('/resetPassword/:token', resetPassword);
 
 // Protect all router after this middleware
-router.use(authController.protect);
+router.use(protect);
 
-router.patch('/updateMyPassword', authController.updatePassword);
+router.patch('/updateMyPassword', updatePassword);
 
-router.get('/me', userController.getMe, userController.getUser);
-router.patch(
-  '/updateMe',
-  userController.uploadUserPhoto,
-  userController.resizeUserPhoto,
-  userController.updateMe
-);
-router.delete('/deleteMe', userController.deleteMe);
+router.get('/me', getMe, getUser);
+router.patch('/updateMe', uploadUserPhoto, resizeUserPhoto, updateMe);
+router.delete('/deleteMe', deleteMe);
 
 // Protect all routes and restric to admin after this middleware
-router.use(authController.restrictTo('admin'));
+router.use(restrictTo('admin'));
 
-router.route('/').get(userController.getAllUsers);
-
-router
-  .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+router.route('/').get(getAllUsers);
+router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
 
 module.exports = router;

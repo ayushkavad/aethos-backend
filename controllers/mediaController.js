@@ -81,8 +81,47 @@ exports.videoProcess = (req, res, next) => {
   next();
 };
 
+/**
+ * Returns all uploads from the database.
+ *
+ * @param {Mdeia} Media The model for uploads.
+ * @returns {Promise<Array<Media>>} A promise that resolves to an array of uploads.
+ */
 exports.getAllUploads = getAll(Media);
+
+/**
+ * Returns a single upload from the database by its ID.
+ *
+ * @param {Media} Media The model for uploads.
+ * @param {string} id The ID of the uploads to retrieve.
+ * @returns {Promise<Media>} A promise that resolves to the upload.
+ */
 exports.getOneUpload = getOne(Media);
+
+/**
+ * Creates a new upload in the database.
+ *
+ * @param {Media} Media The model for uploads.
+ * @param {Object} reqBody The request body containing the properties for the upload.
+ * @returns {Promise<Review>} A promise that resolves to the created upload.
+ */
 exports.uploadFiles = createOne(Media);
+
+/**
+ * Updates an existing upload in the database.
+ *
+ * @param {Media} Media The model for uploads.
+ * @param {string} id The ID of the upload to update.
+ * @param {Object} reqBody The request body containing the properties to update.
+ * @returns {Promise<Media>} A promise that resolves to the updated upload.
+ */
 exports.updateUpload = updateOne(Media);
+
+/**
+ * Deletes a Media from the database.
+ *
+ * @param {Review} Media The model for uploads.
+ * @param {string} id The ID of the upload to delete.
+ * @returns {Promise<void>} A promise that resolves when the upload is deleted.
+ */
 exports.deleteUpload = deleteOne(Media);

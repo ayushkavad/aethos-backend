@@ -1,6 +1,19 @@
 const express = require('express');
-const courseControllers = require('./../controllers/courseController');
-const authController = require('./../controllers/authController');
+const {
+  getTopRatings,
+  getBestSeller,
+  createMyCourse,
+  process,
+  createCourse,
+  action,
+  getCourse,
+  getAllCourses,
+  uploadCourseImageCover,
+  resizeCourseImageCover,
+  updateCourse,
+  deleteCourse,
+} = require('./../controllers/courseController');
+const { protect, restrictTo } = require('./../controllers/authController');
 const reviewRouter = require('./../router/reviewRouters');
 const uploadRouter = require('./../router/mediaRouters');
 
@@ -9,36 +22,25 @@ const router = express.Router();
 router.use('/:courseId/reviews', reviewRouter);
 router.use('/:courseId/uploads', uploadRouter);
 
-router.route('/top-ratings').get(courseControllers.getTopRatings);
-router.route('/best-seller').get(courseControllers.getBestSeller);
+router.route('/top-ratings').get(getTopRatings);
+router.route('/best-seller').get(getBestSeller);
 
 router
   .route('/')
-  .get(courseControllers.getAllCourses)
-  .post(
-    authController.protect,
-    authController.restrictTo('admin'),
-    courseControllers.createMyCourse,
-    courseControllers.process,
-    courseControllers.createCourse
-  );
+  .get(getAllCourses)
+  .post(protect, restrictTo('admin'), createMyCourse, process, createCourse);
 
 router
   .route('/:id')
-  .get(courseControllers.getCourse)
+  .get(getCourse)
   .patch(
-    authController.protect,
-    authController.restrictTo('admin'),
-    courseControllers.action,
-    courseControllers.uploadCourseImageCover,
-    courseControllers.resizeCourseImageCover,
-    courseControllers.updateCourse
+    protect,
+    restrictTo('admin'),
+    action,
+    uploadCourseImageCover,
+    resizeCourseImageCover,
+    updateCourse
   )
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin'),
-    courseControllers.action,
-    courseControllers.deleteCourse
-  );
+  .delete(protect, restrictTo('admin'), action, deleteCourse);
 
 module.exports = router;

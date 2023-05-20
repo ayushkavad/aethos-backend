@@ -1,14 +1,13 @@
 /**
  * This code is an Express application that provides a RESTful API for a fictional educational platform.
  */
-
-/**
- * Imports the Express and helmet modules.
- *
- * @param {string} express The Express module.
- * @param {string} helmet The helmet module.
- */
 const express = require('express');
+const courseRouter = require('./router/courseRoutes');
+const userRouter = require('./router/userRoutes');
+const reviewRouter = require('./router/reviewRouters');
+const uploadRouter = require('./router/mediaRouters');
+const globalErrorHandler = require('./controllers/errorController');
+const AppError = require('./utils/appError');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -16,12 +15,6 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
-const courseRouter = require('./router/courseRoutes');
-const userRouter = require('./router/userRoutes');
-const reviewRouter = require('./router/reviewRouters');
-const uploadRouter = require('./router/mediaRouters');
-const globalErrorHandler = require('./controllers/errorController');
-const AppError = require('./utils/appError');
 
 const app = express();
 

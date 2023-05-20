@@ -1,4 +1,10 @@
-const factory = require('./handlerFactory');
+const {
+  getAll,
+  getOne,
+  createOne,
+  updateOne,
+  deleteOne,
+} = require('./handlerFactory');
 const Review = require('./../model/reviewModel');
 
 /**
@@ -29,7 +35,7 @@ exports.getAllReview = factory.getAll(Review);
  * @param {string} id The ID of the review to retrieve.
  * @returns {Promise<Review>} A promise that resolves to the review.
  */
-exports.getReview = factory.getOne(Review);
+exports.getReview = getOne(Review);
 
 /**
  * Creates a new review in the database.
@@ -38,7 +44,7 @@ exports.getReview = factory.getOne(Review);
  * @param {Object} reqBody The request body containing the properties for the review.
  * @returns {Promise<Review>} A promise that resolves to the created review.
  */
-exports.createReview = factory.createOne(Review);
+exports.createReview = createOne(Review);
 
 /**
  * Updates an existing review in the database.
@@ -48,7 +54,7 @@ exports.createReview = factory.createOne(Review);
  * @param {Object} reqBody The request body containing the properties to update.
  * @returns {Promise<Review>} A promise that resolves to the updated review.
  */
-exports.updateReview = factory.updateOne(Review);
+exports.updateReview = updateOne(Review);
 
 /**
  * Deletes a review from the database.
@@ -57,4 +63,4 @@ exports.updateReview = factory.updateOne(Review);
  * @param {string} id The ID of the review to delete.
  * @returns {Promise<void>} A promise that resolves when the review is deleted.
  */
-exports.deleteReview = factory.deleteOne(Review);
+exports.deleteReview = deleteOne(Review);
