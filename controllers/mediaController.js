@@ -2,7 +2,13 @@ const path = require('path');
 const multer = require('multer');
 const Media = require('./../model/mediaModel');
 const AppError = require('./../utils/appError');
-const factory = require('./../controllers/handlerFactory');
+const {
+  getAll,
+  getOne,
+  createOne,
+  updateOne,
+  deleteOne,
+} = require('./../controllers/handlerFactory');
 
 /**
  * This function defines the file upload middleware.
@@ -11,7 +17,7 @@ const factory = require('./../controllers/handlerFactory');
  * @param {Object} fileFilter The file filter object.
  * @returns {Object} The upload object.
  */
- const storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/videos');
   },
@@ -48,20 +54,14 @@ const multerFilter = (req, file, cb) => {
  * @param {Object} fileFilter The file filter object.
  * @returns {Object} The upload object.
  */
- const upload = multer({
+const upload = multer({
   storage: storage,
   fileFilter: multerFilter,
 });
 
-/**
- * This function defines the videos upload route.
- *
- * @param {Object} req The request object.
- * @param {Object} res The response object.
- * @param {Function} next The next middleware function.
- * @returns {void}
- */
-exports.videosUpload = upload.fields([{ name: 'mediaContent', maxCount: 50 }]);
+module.exports.videosUpload = upload.fields([
+  { name: 'mediaContent', maxCount: 50 },
+]);
 
 /**
  * This function processes the uploaded videos.
@@ -81,54 +81,8 @@ exports.videoProcess = (req, res, next) => {
   next();
 };
 
-
-/**
- * Gets all uploads.
- *
- * @param {Object} req The request object.
- * @param {Object} res The response object.
- * @param {Function} next The next middleware function.
- * @returns {void}
- */
- exports.getAllUploads = factory.getAll(Media);
-
- /**
-  * Gets an upload by ID.
-  *
-  * @param {Object} req The request object.
-  * @param {Object} res The response object.
-  * @param {Function} next The next middleware function.
-  * @returns {void}
-  */
- exports.getOneUpload = factory.getOne(Media);
- 
- /**
-  * Uploads files.
-  *
-  * @param {Object} req The request object.
-  * @param {Object} res The response object.
-  * @param {Function} next The next middleware function.
-  * @returns {void}
-  */
- exports.uploadFiles = factory.createOne(Media);
- 
- /**
-  * Updates an upload.
-  *
-  * @param {Object} req The request object.
-  * @param {Object} res The response object.
-  * @param {Function} next The next middleware function.
-  * @returns {void}
-  */
- exports.updateUpload = factory.updateOne(Media);
- 
- /**
-  * Deletes an upload.
-  *
-  * @param {Object} req The request object.
-  * @param {Object} res The response object.
-  * @param {Function} next The next middleware function.
-  * @returns {void}
-  */
- exports.deleteUpload = factory.deleteOne(Media);
- 
+exports.getAllUploads = getAll(Media);
+exports.getOneUpload = getOne(Media);
+exports.uploadFiles = createOne(Media);
+exports.updateUpload = updateOne(Media);
+exports.deleteUpload = deleteOne(Media);
