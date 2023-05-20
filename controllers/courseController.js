@@ -2,7 +2,13 @@ const multer = require('multer');
 const sharp = require('sharp');
 const AppError = require('../utils/appError');
 const Course = require('./../model/courseModel');
-const { getAll, createOne, updateOne, deleteOne } = require('./handlerFactory');
+const {
+  getAll,
+  getOne,
+  createOne,
+  updateOne,
+  deleteOne,
+} = require('./handlerFactory');
 
 /**
  * This function processes the request body and prepares it for further processing.

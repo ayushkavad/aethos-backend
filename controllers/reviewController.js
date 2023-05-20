@@ -26,7 +26,7 @@ exports.setCourseAndUserId = (req, res, next) => {
  * @param {Review} Review The model for reviews.
  * @returns {Promise<Array<Review>>} A promise that resolves to an array of reviews.
  */
-exports.getAllReview = factory.getAll(Review);
+exports.getAllReview = getAll(Review);
 
 /**
  * Returns a single review from the database by its ID.
