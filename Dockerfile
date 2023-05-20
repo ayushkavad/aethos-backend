@@ -1,5 +1,5 @@
 # node image as the base image for the Dockerfile.
-FROM node
+FROM node:20-alpine3.17
 
 # set the working directory to /app.
 WORKDIR /app

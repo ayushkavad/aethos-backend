@@ -57,16 +57,10 @@ exports.createMyCourse = (req, res, next) => {
  */
 exports.action = async (req, res, next) => {
   /**
-   * @type {string}
-   * @description The ID of the course.
-   */
-  let id;
-
-  /**
    * @type {Course}
    * @description The course object.
    */
-  const course = await Course.findById(id);
+  const course = await Course.findById(req.params.id);
 
   /**
    * @type {boolean}
