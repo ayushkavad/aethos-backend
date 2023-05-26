@@ -1,6 +1,8 @@
 version: '3'
+
 services:
   aethos:
     image: aethos
+    build: .
     ports:
       - 8080:8080
