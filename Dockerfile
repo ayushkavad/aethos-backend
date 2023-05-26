@@ -1,5 +1,8 @@
 # node image as the base image for the Dockerfile.
-FROM node:20-alpine3.17
+FROM node:20-alpine3.17 as prod
+
+# environment
+ENV NODE_ENV=production
 
 # expose port 8080.
 EXPOSE 8080
@@ -14,7 +17,7 @@ RUN apk add --no-cache tini
 COPY package.json package-lock.json* ./
 
 #  the npm install command to install the dependencies.
-RUN npm install && npm clean cache --force
+RUN npm install --only=production && npm clean cache --force
 
 # copies all the files from the current directory to the working directory.
 COPY . . 
@@ -23,5 +26,11 @@ COPY . .
 ENTRYPOINT [ "/sbin/tini", "--" ]
 
 # Docker to run the npm start command when the container starts.
-CMD [ "npm","start" ]
+CMD [ "node","./server.js" ]
+
+
+FROM prod as dev
+ENV NODE_ENV=development
+RUN npm install --only=development
+CMD [ "./node_modules/nodemon/bin/nodemon.js", "./server.js" ]
 
