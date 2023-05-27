@@ -85,6 +85,13 @@ app.use(
   })
 );
 
+app.get('/', (req, res, next) => {
+  res.status(200).json({
+    status: 'success',
+    message: 'Hello from the aethos!',
+  });
+});
+
 /**
  * Test middleware.
  *
