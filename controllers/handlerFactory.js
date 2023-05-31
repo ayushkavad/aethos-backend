@@ -3,12 +3,6 @@ const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
-/**
- * Gets all documents from a model.
- *
- * @param {Model} model The model to get documents from.
- * @returns {Promise<Array<Document>>} A promise that resolves to an array of documents.
- */
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     // To Allow for nested GET Reviews on Course
@@ -57,13 +51,7 @@ exports.getAll = (Model) =>
     });
   });
 
-/**
- * Gets a single document from a model.
- *
- * @param {Model} model The model to get the document from.
- * @param {Array<string>} populateArr The names of the properties to populate.
- * @returns {Promise<Document>} A promise that resolves to the document.
- */
+
 exports.getOne = (Model, populateArr) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
@@ -82,13 +70,7 @@ exports.getOne = (Model, populateArr) =>
     });
   });
 
-/**
- * Creates a new document in a model.
- *
- * @param {Model} model The model to create the document in.
- * @param {Object} reqBody The request body containing the properties for the document.
- * @returns {Promise<Document>} A promise that resolves to the document.
- */
+
 exports.createOne = (Model, reqBody) =>
   catchAsync(async (req, res, next) => {
     if (!reqBody.course) reqBody.course = req.params.courseId;
@@ -102,13 +84,6 @@ exports.createOne = (Model, reqBody) =>
     });
   });
 
-/**
- * Updates a document in a model.
- *
- * @param {Model} model The model to update the document in.
- * @param {Object} reqBody The request body containing the properties to update.
- * @returns {Promise<Document>} A promise that resolves to the document.
- */
 exports.updateOne = (Model, reqBody) =>
   catchAsync(async (req, res, next) => {
     if (req.file) {
@@ -131,13 +106,6 @@ exports.updateOne = (Model, reqBody) =>
     });
   });
 
-/**
- * Deletes a document from a model.
- *
- * @param {Model} model The model to delete the document from.
- * @param {string} id The ID of the document to delete.
- * @returns {Promise<Document>} A promise that resolves to the document.
- */
 exports.deleteOne = (Model, id) =>
   catchAsync(async (req, res, next) => {
     const doc = await Model.findByIdAndDelete(id);

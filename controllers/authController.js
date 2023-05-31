@@ -10,26 +10,13 @@
  const AppError = require('../utils/appError');
  const sendEmail = require('./../utils/email');
  
- /**
-  * Signs a JWT token with the given id.
-  *
-  * @param {String} id The id to sign the token with.
-  * @returns {String} The signed JWT token.
-  */
+
  const signInToken = (id) => {
    return jwt.sign({ id }, process.env.SECRET_KEY, {
      expiresIn: process.env.EXPIRES_IN,
    });
  };
- 
- /**
-  * Creates a JWT token and sets it as a cookie in the response.
-  *
-  * @param {User} user The user to create the token for.
-  * @param {Number} statusCode The HTTP status code to return.
-  * @param {Response} res The response object.
-  * @returns {Promise<void>} A promise that resolves when the token has been created and set as a cookie.
-  */
+
  const createSendToken = async (user, statusCode, res) => {
    const token = await signInToken(user._id);
  
@@ -56,14 +43,6 @@
  };
  
 
-/**
- * This function creates a new user and sets a JWT token in the response.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
 exports.signup = catchAsync(async (req, res, next) => {
   // Create a new user
   const newUser = await User.create({
@@ -78,14 +57,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   createSendToken(newUser, 201, res);
 });
 
-/**
- * This function logs a user in and sets a JWT token in the response.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
+
  exports.login = catchAsync(async (req, res, next) => {
   // 1) Check if email and password exist
   const { email, password } = req.body;
@@ -106,14 +78,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 
-/**
- * This function logs a user out and removes the JWT token from the response.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
  exports.logout = (req, res, next) => {
   // Set a cookie with a short expiration date to invalidate the JWT token
   res.cookie('jwt', 'loggedout', {
@@ -126,14 +90,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 };
 
 
-/**
- * This function protects a route by verifying the JWT token in the request.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
  exports.protect = catchAsync(async (req, res, next) => {
   // Get the JWT token from the request
   let token;
@@ -184,12 +140,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 
-/**
- * This function restricts a route to users with the specified roles.
- *
- * @param {...string} roles The roles that are allowed to access the route.
- * @returns {Function} A middleware function that checks the user's role and returns an unauthorized error if they do not have the required role.
- */
  exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     // Check if the user has the required role
@@ -204,14 +154,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   };
 };
 
-/**
- * This function sends a password reset link to the user's email address.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
+
  exports.forgotPassword = catchAsync(async (req, res, next) => {
   // Find the user by email address
   const user = await User.findOne({ email: req.body.email });
@@ -262,14 +205,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 
-/**
- * This function resets a user's password.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
  exports.resetPassword = catchAsync(async (req, res, next) => {
   // Get the hashed token from the request
   const hashedToken = crypto
@@ -304,14 +239,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 });
 
 
-/**
- * This function updates a user's password.
- *
- * @param {Request} req The request object.
- * @param {Response} res The response object.
- * @param {NextFunction} next The next function in the middleware chain.
- * @returns {void}
- */
  exports.updatePassword = catchAsync(async (req, res, next) => {
   // Get the current user from the request
   const user = await User.findById(req.user.id).select('+password');

@@ -1,11 +1,5 @@
 const nodemailer = require('nodemailer');
 
-/**
- * This function sends an email.
- *
- * @param {object} option The email options.
- * @returns {Promise<void>} A promise that resolves when the email is sent.
- */
  module.exports = async (option) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
