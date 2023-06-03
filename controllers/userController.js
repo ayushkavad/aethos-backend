@@ -19,7 +19,6 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-
 exports.resizeUserPhoto = (req, res, next) => {
 
   const hasFile = req.file;
